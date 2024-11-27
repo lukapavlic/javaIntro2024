@@ -1,5 +1,6 @@
 package si.otp.demoprojekt.vao;
 
+import si.otp.demoprojekt.exceptions.NiDovoljSredstevException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class BancniRacun {
 
     private LocalDate datumOdprtja=LocalDate.now();
 
-    private BigDecimal limit=BigDecimal.valueOf(0);
+    private BigDecimal limit=BigDecimal.valueOf(1000);
 
     private List<Transakcija> transakcije=new ArrayList<>();
 
@@ -27,7 +28,11 @@ public class BancniRacun {
         transakcije.add(t);
     }
 
-    public void dvigni(BigDecimal znesek, String namen) {
+    public void dvigni(BigDecimal znesek, String namen) throws NiDovoljSredstevException {
+        BigDecimal dovoljenDvig=stanje().add(limit);
+
+        if (dovoljenDvig.compareTo(znesek)<0) throw new NiDovoljSredstevException("Premalo sredstev na računu");
+
         Transakcija t=new Transakcija(this,null,znesek.multiply(BigDecimal.valueOf(-1)),namen);
         transakcije.add(t);
     }

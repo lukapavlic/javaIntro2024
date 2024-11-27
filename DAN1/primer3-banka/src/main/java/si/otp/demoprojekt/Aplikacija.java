@@ -1,26 +1,30 @@
 package si.otp.demoprojekt;
 
 import si.otp.demoprojekt.dao.Banka;
+import si.otp.demoprojekt.exceptions.NiDovoljSredstevException;
 import si.otp.demoprojekt.vao.BancniRacun;
-import si.otp.demoprojekt.vao.Komitent;
 import si.otp.demoprojekt.vao.Transakcija;
-
 import java.math.BigDecimal;
-import java.util.List;
 
 public class Aplikacija {
 
     public static void main(String[] args) {
 
-        BancniRacun brJanko=new BancniRacun("000-0000-0000",new Komitent("Janko", "Komitent"));
-        BancniRacun brMetka=new BancniRacun("000-0000-1111",new Komitent("Metka", "Komitentka"));
+        Banka otp=new Banka();
+
+        BancniRacun brJanko=otp.getRacun("000-0000-0000");
+        BancniRacun brMetka=otp.getRacun("000-0000-1111");
 
         System.out.println("Prej:");
         System.out.println("Janko: "+brJanko.stanje());
         System.out.println("Metka: "+brMetka.stanje());
 
-        brJanko.dvigni(BigDecimal.valueOf(1000),"Dvig");
-        brMetka.polozi(BigDecimal.valueOf(1000),"Polog");
+        try {
+            brJanko.dvigni(BigDecimal.valueOf(10000),"Dvig");
+            brMetka.polozi(BigDecimal.valueOf(10000),"Polog");
+        } catch (NiDovoljSredstevException e) {
+            System.out.println("Žal...");
+        }
 
         System.out.println("Potem:");
         System.out.println("Janko: "+brJanko.stanje());
@@ -35,7 +39,5 @@ public class Aplikacija {
             System.out.println(t);
 
     }
-
-
 
 }

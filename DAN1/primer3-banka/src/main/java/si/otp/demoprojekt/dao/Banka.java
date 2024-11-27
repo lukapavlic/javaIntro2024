@@ -2,7 +2,6 @@ package si.otp.demoprojekt.dao;
 
 import si.otp.demoprojekt.vao.BancniRacun;
 import si.otp.demoprojekt.vao.Komitent;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,4 +19,12 @@ public class Banka {
     public List<BancniRacun> getRacuni() {
         return racuni;
     }
+
+    public BancniRacun getRacun(String iban) {
+        for (BancniRacun brRacun : racuni)
+            if (brRacun.getIban().equals(iban))
+                return brRacun;
+        return null;
+    }
+
 }
