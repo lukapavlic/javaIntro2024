@@ -2,8 +2,6 @@ package si.otp.demoprojekt.vao;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class Komitent {
 

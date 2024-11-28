@@ -52,4 +52,8 @@ public class BancniRacun {
     public List<Transakcija> getTransakcije() {
         return transakcije;
     }
+
+    public Komitent getLastnik() {
+        return lastnik;
+    }
 }
