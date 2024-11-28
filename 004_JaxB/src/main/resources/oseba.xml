@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<oseba>
+    <ime>Janez</ime>
+    <priimek>Novak</priimek>
+    <naslov>Koroška cesva 46, 2000 Maribor</naslov>
+    <starost>31</starost>
+    <komitent>true</komitent>
+    <OdprtiRacuni>
+        <iBan>SI56-0000-0000-1111</iBan>
+        <iBan>SI56-0000-0000-2222</iBan>
+    </OdprtiRacuni>
+</oseba>
