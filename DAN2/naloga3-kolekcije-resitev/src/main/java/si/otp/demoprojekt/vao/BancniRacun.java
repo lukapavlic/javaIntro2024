@@ -4,6 +4,7 @@ import si.otp.demoprojekt.exceptions.NiDovoljSredstevException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BancniRacun {
 
@@ -12,7 +13,7 @@ public class BancniRacun {
         this.lastnik = lastnik;
     }
 
-    protected String iban;
+    private String iban;
 
     private Komitent lastnik;
 
@@ -29,28 +30,11 @@ public class BancniRacun {
 
     public void dvigni(double znesek, String namen) throws NiDovoljSredstevException {
         double dovoljenDvig=stanje()+limit;
+
         if (dovoljenDvig<znesek) throw new NiDovoljSredstevException("Premalo sredstev na računu");
 
         Transakcija t=new Transakcija(this,null,znesek * -1.0,namen);
         transakcije.add(t);
-    }
-
-    public void prenesi(BancniRacun ponor, double znesek) throws NiDovoljSredstevException {
-        double dovoljenDvig=stanje()+limit;
-        if (dovoljenDvig<znesek) throw new NiDovoljSredstevException("Premalo sredstev na računu");
-
-        Transakcija mojaTransakcija=new Transakcija(
-                this,
-                ponor,
-                znesek * -1.0,
-                "Prenos sredstev na "+ponor.getIban());
-        transakcije.add(mojaTransakcija);
-
-        Transakcija ponorovaTransakcija=new Transakcija(
-                this,
-                ponor,
-                znesek,"Prenos sredstev iz "+this.getIban());
-        ponor.getTransakcije().add(ponorovaTransakcija);
     }
 
     public double stanje() {
@@ -60,16 +44,35 @@ public class BancniRacun {
         return znesek;
     }
 
+    @Override
+    public String toString() {
+        return "BancniRacun{" +
+                "iban='" + iban + '\'' +
+                ", lastnik=" + lastnik +
+                ", datumOdprtja=" + datumOdprtja +
+                ", limit=" + limit +
+                ", transakcije=" + transakcije +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        BancniRacun that = (BancniRacun) o;
+        return Objects.equals(iban, that.iban);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(iban);
+    }
+
     public String getIban() {
         return iban;
     }
 
     public List<Transakcija> getTransakcije() {
         return transakcije;
-    }
-
-    public Komitent getLastnik() {
-        return lastnik;
     }
 
 }
